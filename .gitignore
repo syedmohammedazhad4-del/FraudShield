@@ -7,4 +7,5 @@ document/
 *.db
 .env
 /__pycache__
+/.idea/
 /.idea
