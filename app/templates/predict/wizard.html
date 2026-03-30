@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            <h3 class="fw-bold text-slate-800 mb-1">Analyze Insurance Claim</h3>
+            <p class="text-muted mb-4">Complete all four steps to get a fraud prediction.</p>
+
+            <!-- Wizard Progress Indicator -->
+            <div class="d-flex align-items-center justify-content-center mb-5">
+                {% for step in wizard_steps %}
+                <div class="text-center wizard-progress-item" data-step="{{ loop.index }}">
+                    <div class="wizard-circle {% if loop.first %}active{% endif %}" id="wizard-circle-{{ loop.index }}">
+                        {{ loop.index }}
+                    </div>
+                    <div class="small mt-1 fw-semibold text-slate-700">{{ step.title }}</div>
+                </div>
+                {% if not loop.last %}
+                <div class="wizard-line flex-grow-1 mx-2" id="wizard-line-{{ loop.index }}"></div>
+                {% endif %}
+                {% endfor %}
+            </div>
+
+            <!-- Wizard Form -->
+            <form method="POST" action="{{ url_for('api.predict_view') }}" id="wizard-form" novalidate>
+                {{ form.hidden_tag() }}
+
+                {% for step in wizard_steps %}
+                <div class="wizard-step {% if loop.first %}active{% endif %}" id="step-{{ loop.index }}">
+                    <div class="card card-custom">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-indigo-subtle me-3" style="width: 40px; height: 40px;">
+                                    <i class="bi {{ step.icon }} text-indigo"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold text-slate-800 mb-0">Step {{ loop.index }}: {{ step.title }}</h5>
+                                    <p class="text-muted small mb-0">{{ step.description }}</p>
+                                </div>
+                            </div>
+                            <hr class="text-muted">
+                            <div class="row g-3">
+                                {% for field_name in step.fields %}
+                                {% set field_info = field_choices[field_name] %}
+                                <div class="col-md-6">
+                                    <label for="{{ field_name }}" class="form-label fw-semibold text-slate-700">{{ field_info.label }}</label>
+                                    {% if field_name == 'Age' %}
+                                    <input type="number" class="form-control {% if form[field_name].errors %}is-invalid{% endif %}" id="{{ field_name }}" name="{{ field_name }}" min="16" max="100" placeholder="Enter age (16-100)" value="{{ form[field_name].data or '' }}">
+                                    {% elif field_info.choices %}
+                                    <select class="form-select {% if form[field_name].errors %}is-invalid{% endif %}" id="{{ field_name }}" name="{{ field_name }}">
+                                        {% for value, label in field_info.choices %}
+                                        <option value="{{ value }}" {% if form[field_name].data|string == value|string %}selected{% endif %}>{{ label }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    {% else %}
+                                    <input type="text" class="form-control {% if form[field_name].errors %}is-invalid{% endif %}" id="{{ field_name }}" name="{{ field_name }}" value="{{ form[field_name].data or '' }}">
+                                    {% endif %}
+                                    {% for error in form[field_name].errors %}
+                                    <div class="text-danger small mt-1">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent border-top d-flex justify-content-between py-3 px-4">
+                            {% if not loop.first %}
+                            <button type="button" class="btn btn-outline-custom wizard-prev" data-step="{{ loop.index }}">
+                                <i class="bi bi-arrow-left me-2"></i>Previous
+                            </button>
+                            {% else %}
+                            <div></div>
+                            {% endif %}
+
+                            {% if loop.last %}
+                            <button type="submit" class="btn btn-primary-custom">
+                                <i class="bi bi-search me-2"></i>Analyze Claim
+                            </button>
+                            {% else %}
+                            <button type="button" class="btn btn-primary-custom wizard-next" data-step="{{ loop.index }}">
+                                Next<i class="bi bi-arrow-right ms-2"></i>
+                            </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .wizard-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.9rem;
+        background-color: #e2e8f0;
+        color: #64748b;
+        transition: all 0.3s ease;
+    }
+    .wizard-circle.active {
+        background-color: var(--indigo, #6366f1);
+        color: #fff;
+    }
+    .wizard-circle.completed {
+        background-color: #22c55e;
+        color: #fff;
+    }
+    .wizard-line {
+        height: 3px;
+        background-color: #e2e8f0;
+        border-radius: 2px;
+        margin-top: -18px;
+        transition: background-color 0.3s ease;
+    }
+    .wizard-line.completed {
+        background-color: #22c55e;
+    }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const totalSteps = {{ wizard_steps|length }};
+    let currentStep = 1;
+
+    function showStep(step) {
+        for (let i = 1; i <= totalSteps; i++) {
+            const el = document.getElementById('step-' + i);
+            el.classList.toggle('active', i === step);
+
+            const circle = document.getElementById('wizard-circle-' + i);
+            circle.classList.remove('active', 'completed');
+            if (i < step) {
+                circle.classList.add('completed');
+                circle.innerHTML = '<i class="bi bi-check"></i>';
+            } else if (i === step) {
+                circle.classList.add('active');
+                circle.textContent = i;
+            } else {
+                circle.textContent = i;
+            }
+
+            if (i < totalSteps) {
+                const line = document.getElementById('wizard-line-' + i);
+                line.classList.toggle('completed', i < step);
+            }
+        }
+        currentStep = step;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function validateStep(step) {
+        const stepEl = document.getElementById('step-' + step);
+        const inputs = stepEl.querySelectorAll('input[required], select[required], input, select');
+        let valid = true;
+        inputs.forEach(function (input) {
+            if (input.name && input.name !== 'csrf_token') {
+                if (!input.value || input.value === '') {
+                    input.classList.add('is-invalid');
+                    valid = false;
+                } else {
+                    input.classList.remove('is-invalid');
+                }
+            }
+        });
+        return valid;
+    }
+
+    document.querySelectorAll('.wizard-next').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const step = parseInt(this.getAttribute('data-step'));
+            if (validateStep(step)) {
+                showStep(step + 1);
+            }
+        });
+    });
+
+    document.querySelectorAll('.wizard-prev').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const step = parseInt(this.getAttribute('data-step'));
+            showStep(step - 1);
+        });
+    });
+});
+</script>
+{% endblock %}

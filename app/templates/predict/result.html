@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Result Card -->
+            <div class="card card-custom mb-4" style="border-left: 5px solid {% if prediction.prediction_result == 'Fraud' %}#ef4444{% else %}#22c55e{% endif %};">
+                <div class="card-body p-4 text-center">
+                    {% if prediction.prediction_result == 'Fraud' %}
+                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-danger bg-opacity-10 mb-3" style="width: 80px; height: 80px;">
+                        <i class="bi bi-exclamation-triangle fs-1 text-danger"></i>
+                    </div>
+                    <h2 class="fw-bold text-danger mb-2">FRAUD DETECTED</h2>
+                    <p class="text-muted mb-0">This claim has been flagged as potentially fraudulent.</p>
+                    {% else %}
+                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-success bg-opacity-10 mb-3" style="width: 80px; height: 80px;">
+                        <i class="bi bi-check-circle fs-1 text-success"></i>
+                    </div>
+                    <h2 class="fw-bold text-success mb-2">CLAIM IS LEGITIMATE</h2>
+                    <p class="text-muted mb-0">This claim appears to be legitimate based on the analysis.</p>
+                    {% endif %}
+
+                    <!-- Confidence Gauge -->
+                    <div class="my-4">
+                        <div class="d-inline-block position-relative" style="width: 140px; height: 140px;">
+                            <svg viewBox="0 0 120 120" width="140" height="140">
+                                <circle cx="60" cy="60" r="50" fill="none" stroke="#e2e8f0" stroke-width="10"/>
+                                <circle cx="60" cy="60" r="50" fill="none"
+                                    stroke="{% if prediction.prediction_result == 'Fraud' %}#ef4444{% else %}#22c55e{% endif %}"
+                                    stroke-width="10"
+                                    stroke-dasharray="{{ (prediction.confidence_score / 100 * 314.159) | round(1) }} 314.159"
+                                    stroke-linecap="round"
+                                    transform="rotate(-90 60 60)"/>
+                                <text x="60" y="55" text-anchor="middle" font-size="22" font-weight="700"
+                                    fill="{% if prediction.prediction_result == 'Fraud' %}#ef4444{% else %}#22c55e{% endif %}">
+                                    {{ "%.1f"|format(prediction.confidence_score) }}%
+                                </text>
+                                <text x="60" y="72" text-anchor="middle" font-size="10" fill="#94a3b8">Confidence</text>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-1 small text-muted">
+                        <span>Analyzed on {{ prediction.created_at.strftime('%B %d, %Y at %I:%M %p') }}</span>
+                        {% if prediction.model_version %}
+                        <span class="mx-1">|</span>
+                        <span>Model {{ prediction.model_version }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Expandable Details -->
+            <div class="card card-custom mb-4">
+                <div class="card-header bg-transparent border-bottom">
+                    <a class="text-decoration-none d-flex align-items-center justify-content-between" data-bs-toggle="collapse" href="#claimDetails" role="button" aria-expanded="false">
+                        <h6 class="fw-bold text-slate-800 mb-0">
+                            <i class="bi bi-list-ul me-2"></i>Submitted Claim Details
+                        </h6>
+                        <i class="bi bi-chevron-down text-muted"></i>
+                    </a>
+                </div>
+                <div class="collapse" id="claimDetails">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th class="ps-4 text-muted small fw-semibold text-uppercase" style="width: 40%;">Field</th>
+                                        <th class="pe-4 text-muted small fw-semibold text-uppercase">Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for key, value in input_data.items() %}
+                                    <tr>
+                                        <td class="ps-4 fw-semibold text-slate-700">
+                                            {% if key in field_choices %}
+                                                {{ field_choices[key].label }}
+                                            {% else %}
+                                                {{ key }}
+                                            {% endif %}
+                                        </td>
+                                        <td class="pe-4 text-slate-600">
+                                            {% if key in field_choices and field_choices[key].choices %}
+                                                {% set display_value = value %}
+                                                {% for choice_val, choice_label in field_choices[key].choices %}
+                                                    {% if choice_val|string == value|string %}
+                                                        {% set display_value = choice_label %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                                {{ display_value }}
+                                            {% else %}
+                                                {{ value }}
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="d-flex flex-wrap gap-2 justify-content-center">
+                <a href="{{ url_for('api.predict_view') }}" class="btn btn-primary-custom">
+                    <i class="bi bi-plus-circle me-2"></i>New Prediction
+                </a>
+                <a href="{{ url_for('main.history') }}" class="btn btn-outline-custom">
+                    <i class="bi bi-clock-history me-2"></i>View History
+                </a>
+                <a href="{{ url_for('main.dashboard') }}" class="btn btn-outline-custom">
+                    <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

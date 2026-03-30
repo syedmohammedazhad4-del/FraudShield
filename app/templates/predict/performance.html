@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <h3 class="fw-bold text-slate-800 mb-1">Model Performance</h3>
+    <p class="text-muted mb-4">Detailed metrics and analytics for the active fraud detection model.</p>
+
+    {% if metrics %}
+    <!-- Model Info Card -->
+    <div class="card card-custom mb-4">
+        <div class="card-body p-4">
+            <h5 class="fw-bold text-slate-800 mb-3"><i class="bi bi-info-circle me-2"></i>Model Information</h5>
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <div class="text-muted small">Algorithm</div>
+                    <div class="fw-semibold text-slate-800">{{ metrics.algorithm }}</div>
+                </div>
+                <div class="col-md-3">
+                    <div class="text-muted small">Version</div>
+                    <div class="fw-semibold text-slate-800">{{ metrics.version }}</div>
+                </div>
+                <div class="col-md-3">
+                    <div class="text-muted small">Training Date</div>
+                    <div class="fw-semibold text-slate-800">{{ metrics.trained_at.strftime('%b %d, %Y') if metrics.trained_at else 'N/A' }}</div>
+                </div>
+                <div class="col-md-3">
+                    <div class="text-muted small">Features</div>
+                    <div class="fw-semibold text-slate-800">{{ metrics.feature_count or 'N/A' }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Metric Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-sm-6 col-lg">
+            <div class="card stat-card text-center border-top border-4 border-primary">
+                <div class="card-body">
+                    <h2 class="fw-bold text-primary mb-0">{{ "%.1f"|format(metrics.accuracy * 100) }}%</h2>
+                    <span class="text-muted small">Accuracy</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg">
+            <div class="card stat-card text-center border-top border-4 border-info">
+                <div class="card-body">
+                    <h2 class="fw-bold text-info mb-0">{{ "%.1f"|format(metrics.precision * 100) }}%</h2>
+                    <span class="text-muted small">Precision</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg">
+            <div class="card stat-card text-center border-top border-4 border-warning">
+                <div class="card-body">
+                    <h2 class="fw-bold text-warning mb-0">{{ "%.1f"|format(metrics.recall * 100) }}%</h2>
+                    <span class="text-muted small">Recall</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg">
+            <div class="card stat-card text-center border-top border-4 border-success">
+                <div class="card-body">
+                    <h2 class="fw-bold text-success mb-0">{{ "%.1f"|format(metrics.f1_score * 100) }}%</h2>
+                    <span class="text-muted small">F1-Score</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg">
+            <div class="card stat-card text-center border-top border-4" style="border-color: var(--indigo, #6366f1) !important;">
+                <div class="card-body">
+                    <h2 class="fw-bold text-indigo mb-0">{{ "%.1f"|format(metrics.auc_roc * 100) }}%</h2>
+                    <span class="text-muted small">AUC-ROC</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="row g-4 mb-4">
+        <!-- Confusion Matrix -->
+        {% if metrics.confusion_matrix %}
+        <div class="col-lg-6">
+            <div class="card card-custom h-100">
+                <div class="card-header bg-transparent border-bottom">
+                    <h6 class="fw-bold text-slate-800 mb-0"><i class="bi bi-grid-3x3 me-2"></i>Confusion Matrix</h6>
+                </div>
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <div class="text-center">
+                        <div class="mb-2 small text-muted fw-semibold">Predicted</div>
+                        <div class="d-flex align-items-center">
+                            <div class="me-2 small text-muted fw-semibold" style="writing-mode: vertical-rl; transform: rotate(180deg);">Actual</div>
+                            <table class="table table-bordered text-center mb-0" style="width: auto;">
+                                <thead>
+                                    <tr>
+                                        <th class="bg-light"></th>
+                                        <th class="bg-light small fw-semibold">Legitimate</th>
+                                        <th class="bg-light small fw-semibold">Fraud</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="bg-light small fw-semibold">Legitimate</td>
+                                        <td class="bg-success bg-opacity-10 fw-bold text-success fs-5">{{ metrics.confusion_matrix[0][0] }}</td>
+                                        <td class="bg-danger bg-opacity-10 fw-bold text-danger fs-5">{{ metrics.confusion_matrix[0][1] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-light small fw-semibold">Fraud</td>
+                                        <td class="bg-danger bg-opacity-10 fw-bold text-danger fs-5">{{ metrics.confusion_matrix[1][0] }}</td>
+                                        <td class="bg-success bg-opacity-10 fw-bold text-success fs-5">{{ metrics.confusion_matrix[1][1] }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="mt-2 small text-muted">
+                            <span class="text-success">Green = Correct</span> | <span class="text-danger">Red = Incorrect</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Fraud vs Legitimate Doughnut -->
+        <div class="col-lg-6">
+            <div class="card card-custom h-100">
+                <div class="card-header bg-transparent border-bottom">
+                    <h6 class="fw-bold text-slate-800 mb-0"><i class="bi bi-pie-chart me-2"></i>Fraud vs Legitimate Distribution</h6>
+                </div>
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <canvas id="doughnutChart" width="280" height="280"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feature Importance -->
+    {% if metrics.feature_importances %}
+    <div class="card card-custom mb-4">
+        <div class="card-header bg-transparent border-bottom">
+            <h6 class="fw-bold text-slate-800 mb-0"><i class="bi bi-bar-chart-steps me-2"></i>Feature Importance</h6>
+        </div>
+        <div class="card-body">
+            <canvas id="featureChart" height="400"></canvas>
+        </div>
+    </div>
+    {% endif %}
+
+    {% else %}
+    <!-- No Model Trained -->
+    <div class="card card-custom">
+        <div class="card-body text-center py-5">
+            <i class="bi bi-robot fs-1 text-muted d-block mb-3"></i>
+            <h5 class="fw-bold text-slate-800">No model has been trained yet.</h5>
+            <p class="text-muted">Train a model first to see performance metrics here.</p>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% if metrics %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Doughnut Chart
+    {% if metrics.confusion_matrix %}
+    const cm = {{ metrics.confusion_matrix | tojson }};
+    const totalLegit = cm[0][0] + cm[0][1];
+    const totalFraud = cm[1][0] + cm[1][1];
+    {% else %}
+    const totalLegit = 70;
+    const totalFraud = 30;
+    {% endif %}
+
+    new Chart(document.getElementById('doughnutChart'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Legitimate', 'Fraud'],
+            datasets: [{
+                data: [totalLegit, totalFraud],
+                backgroundColor: ['#22c55e', '#ef4444'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: false,
+            plugins: {
+                legend: { position: 'bottom' }
+            },
+            cutout: '60%'
+        }
+    });
+
+    // Feature Importance Bar Chart
+    {% if metrics.feature_importances %}
+    const featureData = {{ metrics.feature_importances | tojson }};
+    const sortedFeatures = Object.entries(featureData).sort((a, b) => b[1] - a[1]);
+    const featureLabels = sortedFeatures.map(f => f[0]);
+    const featureValues = sortedFeatures.map(f => f[1]);
+
+    new Chart(document.getElementById('featureChart'), {
+        type: 'bar',
+        data: {
+            labels: featureLabels,
+            datasets: [{
+                label: 'Importance',
+                data: featureValues,
+                backgroundColor: 'rgba(99, 102, 241, 0.7)',
+                borderColor: 'rgba(99, 102, 241, 1)',
+                borderWidth: 1,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    grid: { color: '#f1f5f9' }
+                },
+                y: {
+                    grid: { display: false },
+                    ticks: { font: { size: 11 } }
+                }
+            }
+        }
+    });
+    {% endif %}
+});
+</script>
+{% endif %}
+{% endblock %}

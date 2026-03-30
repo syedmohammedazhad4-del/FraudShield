@@ -1,0 +1,273 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <h3 class="fw-bold text-slate-800 mb-1">Company Analytics</h3>
+    <p class="text-muted mb-4">System-wide fraud detection metrics and visualizations.</p>
+
+    <!-- Overview Stat Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-sm-6 col-lg-3">
+            <div class="card stat-card border-start border-4" style="border-color: var(--indigo, #6366f1) !important;">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <h2 class="fw-bold text-slate-800 mb-0">{{ total_predictions }}</h2>
+                            <span class="text-muted small">Total Predictions</span>
+                        </div>
+                        <div class="text-indigo opacity-50">
+                            <i class="bi bi-bar-chart-line fs-2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+            <div class="card stat-card border-start border-danger border-4">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <h2 class="fw-bold text-slate-800 mb-0">{{ fraud_total }}</h2>
+                            <span class="text-muted small">Fraud Cases</span>
+                        </div>
+                        <div class="text-danger opacity-50">
+                            <i class="bi bi-exclamation-triangle fs-2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+            <div class="card stat-card border-start border-success border-4">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <h2 class="fw-bold text-slate-800 mb-0">{{ legit_total }}</h2>
+                            <span class="text-muted small">Legitimate Cases</span>
+                        </div>
+                        <div class="text-success opacity-50">
+                            <i class="bi bi-check-circle fs-2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+            <div class="card stat-card border-start border-warning border-4">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <h2 class="fw-bold text-slate-800 mb-0">
+                                {% if total_predictions > 0 %}{{ "%.1f"|format(fraud_total / total_predictions * 100) }}%{% else %}0%{% endif %}
+                            </h2>
+                            <span class="text-muted small">Fraud Rate</span>
+                        </div>
+                        <div class="text-warning opacity-50">
+                            <i class="bi bi-percent fs-2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if metrics %}
+    <!-- Charts Row -->
+    <div class="row g-4 mb-4">
+        <!-- Doughnut Chart -->
+        <div class="col-lg-4">
+            <div class="card card-custom h-100">
+                <div class="card-header bg-transparent border-bottom">
+                    <h6 class="fw-bold text-slate-800 mb-0"><i class="bi bi-pie-chart me-2"></i>Fraud vs Legitimate</h6>
+                </div>
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <canvas id="doughnutChart" width="250" height="250"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Confusion Matrix -->
+        {% if metrics.confusion_matrix %}
+        <div class="col-lg-4">
+            <div class="card card-custom h-100">
+                <div class="card-header bg-transparent border-bottom">
+                    <h6 class="fw-bold text-slate-800 mb-0"><i class="bi bi-grid-3x3 me-2"></i>Confusion Matrix</h6>
+                </div>
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <div class="text-center">
+                        <div class="mb-2 small text-muted fw-semibold">Predicted</div>
+                        <div class="d-flex align-items-center">
+                            <div class="me-2 small text-muted fw-semibold" style="writing-mode: vertical-rl; transform: rotate(180deg);">Actual</div>
+                            <table class="table table-bordered text-center mb-0" style="width: auto;">
+                                <thead>
+                                    <tr>
+                                        <th class="bg-light"></th>
+                                        <th class="bg-light small fw-semibold">Legit</th>
+                                        <th class="bg-light small fw-semibold">Fraud</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="bg-light small fw-semibold">Legit</td>
+                                        <td class="bg-success bg-opacity-10 fw-bold text-success">{{ metrics.confusion_matrix[0][0] }}</td>
+                                        <td class="bg-danger bg-opacity-10 fw-bold text-danger">{{ metrics.confusion_matrix[0][1] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-light small fw-semibold">Fraud</td>
+                                        <td class="bg-danger bg-opacity-10 fw-bold text-danger">{{ metrics.confusion_matrix[1][0] }}</td>
+                                        <td class="bg-success bg-opacity-10 fw-bold text-success">{{ metrics.confusion_matrix[1][1] }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Feature Importance -->
+        {% if metrics.feature_importances %}
+        <div class="col-lg-4">
+            <div class="card card-custom h-100">
+                <div class="card-header bg-transparent border-bottom">
+                    <h6 class="fw-bold text-slate-800 mb-0"><i class="bi bi-bar-chart-steps me-2"></i>Top Features</h6>
+                </div>
+                <div class="card-body">
+                    <canvas id="featureChart" height="250"></canvas>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Model Performance Metrics Table -->
+    <div class="card card-custom">
+        <div class="card-header bg-transparent border-bottom">
+            <h6 class="fw-bold text-slate-800 mb-0"><i class="bi bi-speedometer2 me-2"></i>Model Performance Metrics</h6>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="ps-4 text-muted small fw-semibold text-uppercase">Metric</th>
+                            <th class="pe-4 text-muted small fw-semibold text-uppercase">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="ps-4 fw-semibold text-slate-700">Model Version</td>
+                            <td class="pe-4">{{ metrics.version }}</td>
+                        </tr>
+                        <tr>
+                            <td class="ps-4 fw-semibold text-slate-700">Algorithm</td>
+                            <td class="pe-4">{{ metrics.algorithm if metrics.algorithm else 'N/A' }}</td>
+                        </tr>
+                        <tr>
+                            <td class="ps-4 fw-semibold text-slate-700">Accuracy</td>
+                            <td class="pe-4">{{ "%.2f"|format(metrics.accuracy * 100) }}%</td>
+                        </tr>
+                        <tr>
+                            <td class="ps-4 fw-semibold text-slate-700">Precision</td>
+                            <td class="pe-4">{{ "%.2f"|format(metrics.precision * 100) }}%</td>
+                        </tr>
+                        <tr>
+                            <td class="ps-4 fw-semibold text-slate-700">Recall</td>
+                            <td class="pe-4">{{ "%.2f"|format(metrics.recall * 100) }}%</td>
+                        </tr>
+                        <tr>
+                            <td class="ps-4 fw-semibold text-slate-700">F1-Score</td>
+                            <td class="pe-4">{{ "%.2f"|format(metrics.f1_score * 100) }}%</td>
+                        </tr>
+                        <tr>
+                            <td class="ps-4 fw-semibold text-slate-700">AUC-ROC</td>
+                            <td class="pe-4">{{ "%.2f"|format(metrics.auc_roc * 100) }}%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    {% else %}
+    <div class="card card-custom">
+        <div class="card-body text-center py-5">
+            <i class="bi bi-robot fs-1 text-muted d-block mb-3"></i>
+            <h5 class="fw-bold text-slate-800">No model has been trained yet.</h5>
+            <p class="text-muted">Train a model first to see analytics here.</p>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% if metrics %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Doughnut Chart
+    new Chart(document.getElementById('doughnutChart'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Legitimate', 'Fraud'],
+            datasets: [{
+                data: [{{ legit_total }}, {{ fraud_total }}],
+                backgroundColor: ['#22c55e', '#ef4444'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: false,
+            plugins: {
+                legend: { position: 'bottom' }
+            },
+            cutout: '60%'
+        }
+    });
+
+    // Feature Importance Bar Chart
+    {% if metrics.feature_importances %}
+    const featureData = {{ metrics.feature_importances | tojson }};
+    const sortedFeatures = Object.entries(featureData).sort((a, b) => b[1] - a[1]).slice(0, 10);
+    const featureLabels = sortedFeatures.map(f => f[0]);
+    const featureValues = sortedFeatures.map(f => f[1]);
+
+    new Chart(document.getElementById('featureChart'), {
+        type: 'bar',
+        data: {
+            labels: featureLabels,
+            datasets: [{
+                label: 'Importance',
+                data: featureValues,
+                backgroundColor: 'rgba(99, 102, 241, 0.7)',
+                borderColor: 'rgba(99, 102, 241, 1)',
+                borderWidth: 1,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    grid: { color: '#f1f5f9' }
+                },
+                y: {
+                    grid: { display: false },
+                    ticks: { font: { size: 10 } }
+                }
+            }
+        }
+    });
+    {% endif %}
+});
+</script>
+{% endif %}
+{% endblock %}

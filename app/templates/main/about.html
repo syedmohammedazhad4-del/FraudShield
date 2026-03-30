@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Header -->
+    <div class="text-center mb-5">
+        <h2 class="fw-bold text-slate-800">About This System</h2>
+        <p class="text-muted col-lg-8 mx-auto">The Insurance Fraud Detection System is a machine learning powered web application designed to identify potentially fraudulent insurance claims. By analyzing claim attributes and patterns, the system provides real-time fraud predictions with confidence scoring.</p>
+    </div>
+
+    <!-- How It Works -->
+    <div class="card card-custom mb-5">
+        <div class="card-header bg-transparent border-bottom">
+            <h5 class="fw-bold text-slate-800 mb-0"><i class="bi bi-gear me-2"></i>How It Works</h5>
+        </div>
+        <div class="card-body p-4">
+            <div class="row g-4 text-center">
+                <div class="col-md-3">
+                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-indigo-subtle mb-3" style="width: 56px; height: 56px;">
+                        <i class="bi bi-pencil-square fs-4 text-indigo"></i>
+                    </div>
+                    <h6 class="fw-bold text-slate-800">1. Data Input</h6>
+                    <p class="text-muted small mb-0">Users enter insurance claim details through a guided multi-step wizard form with 25 key attributes.</p>
+                </div>
+                <div class="col-md-3">
+                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-indigo-subtle mb-3" style="width: 56px; height: 56px;">
+                        <i class="bi bi-arrow-repeat fs-4 text-indigo"></i>
+                    </div>
+                    <h6 class="fw-bold text-slate-800">2. Encoding</h6>
+                    <p class="text-muted small mb-0">Categorical features are label-encoded and numerical features are processed to match the training data format.</p>
+                </div>
+                <div class="col-md-3">
+                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-indigo-subtle mb-3" style="width: 56px; height: 56px;">
+                        <i class="bi bi-cpu fs-4 text-indigo"></i>
+                    </div>
+                    <h6 class="fw-bold text-slate-800">3. ML Model</h6>
+                    <p class="text-muted small mb-0">The encoded data is fed into a trained machine learning model that evaluates fraud probability.</p>
+                </div>
+                <div class="col-md-3">
+                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-indigo-subtle mb-3" style="width: 56px; height: 56px;">
+                        <i class="bi bi-check2-circle fs-4 text-indigo"></i>
+                    </div>
+                    <h6 class="fw-bold text-slate-800">4. Prediction</h6>
+                    <p class="text-muted small mb-0">The system returns a Fraud or Legitimate verdict along with a confidence score and detailed analysis.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Technology Stack -->
+    <h5 class="fw-bold text-slate-800 mb-3">Technology Stack</h5>
+    <div class="row g-4 mb-5">
+        <div class="col-sm-6 col-lg">
+            <div class="card card-custom h-100 text-center p-3">
+                <div class="card-body">
+                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-indigo-subtle mb-2" style="width: 48px; height: 48px;">
+                        <i class="bi bi-braces fs-5 text-indigo"></i>
+                    </div>
+                    <h6 class="fw-bold text-slate-800 mb-1">Flask</h6>
+                    <p class="text-muted small mb-0">Python web framework powering the backend API and routing</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg">
+            <div class="card card-custom h-100 text-center p-3">
+                <div class="card-body">
+                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-indigo-subtle mb-2" style="width: 48px; height: 48px;">
+                        <i class="bi bi-robot fs-5 text-indigo"></i>
+                    </div>
+                    <h6 class="fw-bold text-slate-800 mb-1">scikit-learn</h6>
+                    <p class="text-muted small mb-0">Machine learning library for model training and predictions</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg">
+            <div class="card card-custom h-100 text-center p-3">
+                <div class="card-body">
+                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-indigo-subtle mb-2" style="width: 48px; height: 48px;">
+                        <i class="bi bi-palette fs-5 text-indigo"></i>
+                    </div>
+                    <h6 class="fw-bold text-slate-800 mb-1">Bootstrap 5</h6>
+                    <p class="text-muted small mb-0">Responsive front-end framework for modern UI design</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg">
+            <div class="card card-custom h-100 text-center p-3">
+                <div class="card-body">
+                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-indigo-subtle mb-2" style="width: 48px; height: 48px;">
+                        <i class="bi bi-bar-chart fs-5 text-indigo"></i>
+                    </div>
+                    <h6 class="fw-bold text-slate-800 mb-1">Chart.js</h6>
+                    <p class="text-muted small mb-0">JavaScript library for interactive data visualizations</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg">
+            <div class="card card-custom h-100 text-center p-3">
+                <div class="card-body">
+                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-indigo-subtle mb-2" style="width: 48px; height: 48px;">
+                        <i class="bi bi-database fs-5 text-indigo"></i>
+                    </div>
+                    <h6 class="fw-bold text-slate-800 mb-1">SQLite</h6>
+                    <p class="text-muted small mb-0">Lightweight database for users, predictions, and model metadata</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Team Info -->
+    <div class="card card-custom">
+        <div class="card-body p-4 text-center">
+            <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-indigo-subtle mb-3" style="width: 56px; height: 56px;">
+                <i class="bi bi-mortarboard fs-4 text-indigo"></i>
+            </div>
+            <h5 class="fw-bold text-slate-800 mb-2">Shadan College of Engineering & Technology</h5>
+            <p class="text-muted mb-1">Affiliated to Jawaharlal Nehru Technological University, Hyderabad (JNTUH)</p>
+            <p class="text-muted small mb-0">This project was developed as part of the academic curriculum, demonstrating the practical application of machine learning in the insurance domain.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

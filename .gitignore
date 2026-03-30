@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+instance/
+.claude/
+VTPML18 - Copy/
+document/
+*.db
+.env

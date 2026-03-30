@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h3 class="fw-bold text-slate-800 mb-0">User Management</h3>
+            <p class="text-muted mb-0">Manage registered users and their access.</p>
+        </div>
+        <span class="badge bg-indigo-subtle text-indigo px-3 py-2 fw-semibold">{{ user_data|length }} Users</span>
+    </div>
+
+    <div class="card card-custom">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="ps-4 text-muted small fw-semibold text-uppercase">Username</th>
+                            <th class="text-muted small fw-semibold text-uppercase">Full Name</th>
+                            <th class="text-muted small fw-semibold text-uppercase">Email</th>
+                            <th class="text-muted small fw-semibold text-uppercase">Role</th>
+                            <th class="text-muted small fw-semibold text-uppercase">Status</th>
+                            <th class="text-muted small fw-semibold text-uppercase text-center">Predictions</th>
+                            <th class="pe-4 text-muted small fw-semibold text-uppercase text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in user_data %}
+                        <tr>
+                            <td class="ps-4 fw-semibold text-slate-700">
+                                <i class="bi bi-person-circle me-1 text-muted"></i>{{ item.user.username }}
+                            </td>
+                            <td>{{ item.user.full_name or '-' }}</td>
+                            <td class="small text-muted">{{ item.user.email }}</td>
+                            <td>
+                                {% if item.user.is_admin %}
+                                <span class="badge bg-indigo-subtle text-indigo">
+                                    <i class="bi bi-shield-check me-1"></i>Admin
+                                </span>
+                                {% else %}
+                                <span class="badge bg-light text-muted">Analyst</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if item.user.is_active_user %}
+                                <span class="badge bg-success bg-opacity-10 text-success">
+                                    <i class="bi bi-check-circle me-1"></i>Active
+                                </span>
+                                {% else %}
+                                <span class="badge bg-danger bg-opacity-10 text-danger">
+                                    <i class="bi bi-x-circle me-1"></i>Inactive
+                                </span>
+                                {% endif %}
+                            </td>
+                            <td class="text-center">{{ item.predictions }}</td>
+                            <td class="pe-4 text-end">
+                                {% if item.user.id != current_user.id %}
+                                <form method="POST" action="{{ url_for('admin.toggle_user', id=item.user.id) }}" class="d-inline">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    {% if item.user.is_active_user %}
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to deactivate this user?')">
+                                        <i class="bi bi-person-x me-1"></i>Deactivate
+                                    </button>
+                                    {% else %}
+                                    <button type="submit" class="btn btn-sm btn-outline-success">
+                                        <i class="bi bi-person-check me-1"></i>Activate
+                                    </button>
+                                    {% endif %}
+                                </form>
+                                {% if item.user.role != 'admin' %}
+                                <form method="POST" action="{{ url_for('admin.promote_user', id=item.user.id) }}" class="d-inline ms-1">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="btn btn-sm btn-outline-primary" onclick="return confirm('Promote this user to Admin?')">
+                                        <i class="bi bi-shield-check me-1"></i>Make Admin
+                                    </button>
+                                </form>
+                                {% endif %}
+                                {% else %}
+                                <span class="text-muted small">You</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
