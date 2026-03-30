@@ -15,7 +15,7 @@ def load_user(user_id):
 
 
 class User(db.Model, UserMixin):
-    __tablename__ = 'users'
+    __tablename__ = 'fs_users'
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
@@ -39,10 +39,10 @@ class User(db.Model, UserMixin):
 
 
 class Prediction(db.Model):
-    __tablename__ = 'predictions'
+    __tablename__ = 'fs_predictions'
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('fs_users.id'), nullable=False)
     prediction_result = db.Column(db.String(20), nullable=False)
     confidence_score = db.Column(db.Float, nullable=False)
     input_data_json = db.Column(db.Text, nullable=False)
@@ -53,7 +53,7 @@ class Prediction(db.Model):
 
 
 class ModelMetadata(db.Model):
-    __tablename__ = 'model_metadata'
+    __tablename__ = 'fs_model_metadata'
 
     id = db.Column(db.Integer, primary_key=True)
     version = db.Column(db.String(50), unique=True, nullable=False)

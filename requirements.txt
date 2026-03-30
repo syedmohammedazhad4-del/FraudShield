@@ -11,3 +11,4 @@ numpy
 joblib
 python-docx
 email-validator
+psycopg2-binary
