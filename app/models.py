@@ -1,6 +1,12 @@
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from flask_login import UserMixin
 from app.extensions import db, login_manager
+
+IST = timezone(timedelta(hours=5, minutes=30))
+
+
+def ist_now():
+    return datetime.now(IST).replace(tzinfo=None)
 
 
 @login_manager.user_loader
@@ -18,7 +24,7 @@ class User(db.Model, UserMixin):
     full_name = db.Column(db.String(120))
     role = db.Column(db.String(20), nullable=False, default='analyst')
     is_active_user = db.Column(db.Boolean, nullable=False, default=True)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, nullable=False, default=ist_now)
     last_login = db.Column(db.DateTime)
 
     predictions = db.relationship('Prediction', backref='user', lazy='dynamic')
@@ -42,7 +48,7 @@ class Prediction(db.Model):
     input_data_json = db.Column(db.Text, nullable=False)
     encoded_data_json = db.Column(db.Text)
     model_version = db.Column(db.String(50))
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, nullable=False, default=ist_now)
     notes = db.Column(db.Text)
 
 
@@ -65,4 +71,4 @@ class ModelMetadata(db.Model):
     hyperparameters_json = db.Column(db.Text)
     training_duration = db.Column(db.Float)
     is_active = db.Column(db.Boolean, nullable=False, default=False)
-    trained_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    trained_at = db.Column(db.DateTime, nullable=False, default=ist_now)

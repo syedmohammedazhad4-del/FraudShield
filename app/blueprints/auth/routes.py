@@ -1,4 +1,4 @@
-from datetime import datetime
+from app.models import ist_now
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required, current_user
 from app.blueprints.auth import auth_bp
@@ -50,7 +50,7 @@ def login():
                 return redirect(url_for('auth.login'))
 
             login_user(user)
-            user.last_login = datetime.utcnow()
+            user.last_login = ist_now()
             db.session.commit()
 
             next_page = request.args.get('next')
