@@ -1,0 +1,62 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <list>
+          <option value="annotated-doc" />
+          <option value="anyio" />
+          <option value="blinker" />
+          <option value="certifi" />
+          <option value="click" />
+          <option value="colorama" />
+          <option value="contourpy" />
+          <option value="cycler" />
+          <option value="dnspython" />
+          <option value="filelock" />
+          <option value="Flask" />
+          <option value="fonttools" />
+          <option value="fsspec" />
+          <option value="h11" />
+          <option value="hf-xet" />
+          <option value="httpcore" />
+          <option value="httpx" />
+          <option value="huggingface_hub" />
+          <option value="idna" />
+          <option value="itsdangerous" />
+          <option value="Jinja2" />
+          <option value="kiwisolver" />
+          <option value="markdown-it-py" />
+          <option value="MarkupSafe" />
+          <option value="matplotlib" />
+          <option value="mdurl" />
+          <option value="mpmath" />
+          <option value="networkx" />
+          <option value="numpy" />
+          <option value="packaging" />
+          <option value="pillow" />
+          <option value="Pygments" />
+          <option value="pymongo" />
+          <option value="pyparsing" />
+          <option value="python-dateutil" />
+          <option value="python-dotenv" />
+          <option value="PyYAML" />
+          <option value="regex" />
+          <option value="rich" />
+          <option value="safetensors" />
+          <option value="setuptools" />
+          <option value="shellingham" />
+          <option value="six" />
+          <option value="sympy" />
+          <option value="tokenizers" />
+          <option value="torch" />
+          <option value="tqdm" />
+          <option value="transformers" />
+          <option value="typer" />
+          <option value="typing_extensions" />
+          <option value="Werkzeug" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
