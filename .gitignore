@@ -6,3 +6,4 @@ VTPML18 - Copy/
 document/
 *.db
 .env
+models/*.pkl
