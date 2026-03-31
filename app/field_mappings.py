@@ -178,6 +178,10 @@ FIELD_CHOICES = {
     'BasePolicy': {
         'label': 'Base Policy',
         'choices': [('', 'Select...'), ('All Perils', 'All Perils'), ('Collision', 'Collision'), ('Liability', 'Liability')]
+    },
+    'PolicyNumber': {
+        'label': 'Policy Number',
+        'choices': None  # Free text input
     }
 }
 
@@ -187,7 +191,7 @@ WIZARD_STEPS = [
         'title': 'Policy Information',
         'description': 'Enter the insurance policy details',
         'icon': 'bi-file-earmark-text',
-        'fields': ['WeekOfMonth', 'PolicyType', 'BasePolicy', 'Deductible', 'Days_Policy_Accident', 'Days_Policy_Claim', 'AgentType']
+        'fields': ['PolicyNumber', 'WeekOfMonth', 'PolicyType', 'BasePolicy', 'Deductible', 'Days_Policy_Accident', 'Days_Policy_Claim', 'AgentType']
     },
     {
         'title': 'Personal Information',

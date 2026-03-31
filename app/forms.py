@@ -43,6 +43,7 @@ class PredictionForm(FlaskForm):
                     getattr(self, field_name).choices = field_info['choices']
 
     # Step 1: Policy Information
+    PolicyNumber = StringField('Policy Number', validators=[DataRequired(), Length(min=1, max=50)])
     WeekOfMonth = SelectField('Week of Month', validators=[DataRequired()])
     PolicyType = SelectField('Policy Type', validators=[DataRequired()])
     BasePolicy = SelectField('Base Policy', validators=[DataRequired()])

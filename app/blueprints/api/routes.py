@@ -23,11 +23,15 @@ def predict_view():
                 form_data[field_name] = request.form.get(field_name, '')
 
         try:
+            # Extract policy number (not fed to model, just for tracking)
+            policy_number = form_data.pop('PolicyNumber', '')
+
             result = predict(form_data)
 
             model = ModelMetadata.query.filter_by(is_active=True).first()
             prediction = Prediction(
                 user_id=current_user.id,
+                policy_number=policy_number,
                 prediction_result=result['result'],
                 confidence_score=result['confidence'],
                 input_data_json=json.dumps(form_data),

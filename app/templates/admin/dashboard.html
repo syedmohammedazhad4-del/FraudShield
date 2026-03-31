@@ -118,6 +118,7 @@
                             <thead class="bg-light">
                                 <tr>
                                     <th class="ps-4 text-muted small fw-semibold text-uppercase">User</th>
+                                    <th class="text-muted small fw-semibold text-uppercase">Policy #</th>
                                     <th class="text-muted small fw-semibold text-uppercase">Date</th>
                                     <th class="text-muted small fw-semibold text-uppercase">Result</th>
                                     <th class="pe-4 text-muted small fw-semibold text-uppercase">Confidence</th>
@@ -127,6 +128,7 @@
                                 {% for pred in recent_predictions %}
                                 <tr>
                                     <td class="ps-4 fw-semibold text-slate-700">{{ pred.user.username }}</td>
+                                    <td class="fw-semibold">{{ pred.policy_number or 'N/A' }}</td>
                                     <td class="small">{{ pred.created_at.strftime('%b %d, %Y %I:%M %p') }}</td>
                                     <td>
                                         {% if pred.prediction_result == 'Fraud' %}

@@ -43,6 +43,7 @@ class Prediction(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('fs_users.id'), nullable=False)
+    policy_number = db.Column(db.String(50))
     prediction_result = db.Column(db.String(20), nullable=False)
     confidence_score = db.Column(db.Float, nullable=False)
     input_data_json = db.Column(db.Text, nullable=False)
