@@ -1,59 +1,59 @@
 /* ============================================================
-   Insurance Fraud Detection System - Design System
-   Font: Inter (Google Fonts)
+   FraudShield - Design System
+   Font: SF Pro Display / -apple-system (iOS-like clean aesthetic)
    ============================================================ */
 
 /* ----- CSS Custom Properties ----- */
 :root {
-    /* Primary palette (slate) */
-    --primary: #334155;
-    --primary-dark: #1e293b;
-    --primary-light: #475569;
+    /* Primary palette - soft dark */
+    --primary: #1d1d1f;
+    --primary-dark: #000000;
+    --primary-light: #424245;
 
-    /* Accent palette (indigo) */
-    --indigo: #6366f1;
-    --accent: #6366f1;
-    --accent-light: #818cf8;
-    --accent-subtle: #eef2ff;
+    /* Accent palette - clean blue (Apple-like) */
+    --indigo: #0071e3;
+    --accent: #0071e3;
+    --accent-light: #2997ff;
+    --accent-subtle: #f0f5ff;
 
-    /* Backgrounds */
-    --body-bg: #f8fafc;
+    /* Backgrounds - ultra clean whites */
+    --body-bg: #f5f5f7;
     --card-bg: #ffffff;
-    --muted-bg: #f1f5f9;
+    --muted-bg: #f5f5f7;
 
-    /* Text */
-    --text-primary: #1e293b;
-    --text-secondary: #64748b;
-    --text-muted: #94a3b8;
+    /* Text - Apple-style hierarchy */
+    --text-primary: #1d1d1f;
+    --text-secondary: #6e6e73;
+    --text-muted: #86868b;
 
     /* Status - Fraud */
-    --fraud: #ef4444;
-    --fraud-bg: #fef2f2;
-    --fraud-border: #fca5a5;
+    --fraud: #ff3b30;
+    --fraud-bg: #fff5f5;
+    --fraud-border: #ffcdd2;
 
     /* Status - Legit */
-    --legit: #10b981;
-    --legit-bg: #ecfdf5;
-    --legit-border: #6ee7b7;
+    --legit: #34c759;
+    --legit-bg: #f0faf4;
+    --legit-border: #a8e6c1;
 
-    /* Borders & Shadows */
-    --border-color: #e2e8f0;
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
-    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+    /* Borders & Shadows - ultra subtle */
+    --border-color: #d2d2d7;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.08);
 
     /* Gradient hero */
-    --gradient-hero: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%);
+    --gradient-hero: linear-gradient(135deg, #1d1d1f 0%, #2c2c2e 50%, #3a3a3c 100%);
 
-    /* Radius */
-    --radius-sm: 6px;
-    --radius-md: 10px;
-    --radius-lg: 12px;
-    --radius-xl: 16px;
+    /* Radius - rounded like iOS */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
     --radius-full: 9999px;
 
-    /* Transition */
-    --transition: all 0.2s ease;
+    /* Transition - smooth like iOS */
+    --transition: all 0.25s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 /* ----- Base Reset & Typography ----- */
@@ -68,13 +68,27 @@ html {
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
     background-color: var(--body-bg);
     color: var(--text-primary);
-    line-height: 1.6;
+    line-height: 1.5;
     font-size: 15px;
+    letter-spacing: -0.01em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    letter-spacing: -0.02em;
+    font-weight: 600;
+}
+
+.fw-bold {
+    font-weight: 600 !important;
+}
+
+.fw-semibold {
+    font-weight: 500 !important;
 }
 
 h1, h2, h3, h4, h5, h6 {

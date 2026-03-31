@@ -1,122 +1,362 @@
 {% extends "base.html" %}
 
+{% block title %}About{% endblock %}
+
 {% block content %}
-<div class="container py-4">
-    <!-- Header -->
+<div class="container py-5">
+
+    <!-- Hero Header -->
     <div class="text-center mb-5">
-        <h2 class="fw-bold text-slate-800">About This System</h2>
-        <p class="text-muted col-lg-8 mx-auto">The Insurance Fraud Detection System is a machine learning powered web application designed to identify potentially fraudulent insurance claims. By analyzing claim attributes and patterns, the system provides real-time fraud predictions with confidence scoring.</p>
+        <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width: 72px; height: 72px; background: var(--accent-subtle);">
+            <i class="bi bi-shield-check fs-2" style="color: var(--accent);"></i>
+        </div>
+        <h2 style="font-weight: 600; letter-spacing: -0.03em; color: var(--text-primary);">About FraudShield</h2>
+        <p class="col-lg-7 mx-auto" style="color: var(--text-secondary); font-size: 1.05rem; line-height: 1.7;">
+            FraudShield is an intelligent insurance fraud detection system that leverages machine learning
+            to help insurance companies identify and prevent fraudulent claims in real-time, saving millions
+            in financial losses.
+        </p>
+    </div>
+
+    <!-- The Problem -->
+    <div class="card card-custom mb-4">
+        <div class="card-body p-4">
+            <div class="row align-items-center">
+                <div class="col-md-1 text-center mb-3 mb-md-0">
+                    <i class="bi bi-exclamation-triangle fs-2" style="color: var(--fraud);"></i>
+                </div>
+                <div class="col-md-11">
+                    <h5 style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">The Problem</h5>
+                    <p style="color: var(--text-secondary); margin-bottom: 0;">
+                        Insurance fraud costs the global industry an estimated <strong>$80 billion annually</strong>.
+                        In automobile insurance alone, fraudulent claims account for 5-10% of all claims, leading to
+                        inflated premiums for genuine policyholders. Traditional manual review processes are slow,
+                        inconsistent, and unable to detect sophisticated fraud patterns hidden across thousands of claims.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Our Solution -->
+    <div class="card card-custom mb-4">
+        <div class="card-body p-4">
+            <div class="row align-items-center">
+                <div class="col-md-1 text-center mb-3 mb-md-0">
+                    <i class="bi bi-lightbulb fs-2" style="color: var(--accent);"></i>
+                </div>
+                <div class="col-md-11">
+                    <h5 style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Our Solution</h5>
+                    <p style="color: var(--text-secondary); margin-bottom: 0;">
+                        FraudShield uses the <strong>AdaBoost Classifier</strong> — an ensemble machine learning algorithm
+                        that combines multiple weak classifiers to form a strong, accurate predictive model. The system
+                        analyzes 25 key attributes of each insurance claim, including policy details, accident circumstances,
+                        vehicle information, and claimant behavior patterns to detect anomalies that indicate fraud.
+                        Combined with <strong>SMOTE</strong> (Synthetic Minority Over-sampling Technique) to handle
+                        class imbalance, the model achieves robust fraud detection even when fraudulent cases represent
+                        less than 6% of all claims.
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- How It Works -->
-    <div class="card card-custom mb-5">
-        <div class="card-header bg-transparent border-bottom">
-            <h5 class="fw-bold text-slate-800 mb-0"><i class="bi bi-gear me-2"></i>How It Works</h5>
+    <h5 style="font-weight: 600; color: var(--text-primary); margin-bottom: 1rem;">
+        <i class="bi bi-gear me-2" style="color: var(--accent);"></i>How It Works
+    </h5>
+    <div class="row g-3 mb-5">
+        <div class="col-md-3">
+            <div class="card card-custom h-100 text-center p-4">
+                <div class="d-inline-flex align-items-center justify-content-center rounded-circle mx-auto mb-3" style="width: 52px; height: 52px; background: var(--accent-subtle);">
+                    <span style="font-weight: 700; color: var(--accent); font-size: 1.1rem;">1</span>
+                </div>
+                <h6 style="font-weight: 600; color: var(--text-primary);">Input Claim Data</h6>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0;">
+                    Analysts enter claim details through a guided 4-step wizard — policy info, personal details, vehicle data, and claim specifics.
+                </p>
+            </div>
         </div>
+        <div class="col-md-3">
+            <div class="card card-custom h-100 text-center p-4">
+                <div class="d-inline-flex align-items-center justify-content-center rounded-circle mx-auto mb-3" style="width: 52px; height: 52px; background: var(--accent-subtle);">
+                    <span style="font-weight: 700; color: var(--accent); font-size: 1.1rem;">2</span>
+                </div>
+                <h6 style="font-weight: 600; color: var(--text-primary);">Data Processing</h6>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0;">
+                    Human-readable inputs are automatically encoded and standardized to match the model's training format.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card card-custom h-100 text-center p-4">
+                <div class="d-inline-flex align-items-center justify-content-center rounded-circle mx-auto mb-3" style="width: 52px; height: 52px; background: var(--accent-subtle);">
+                    <span style="font-weight: 700; color: var(--accent); font-size: 1.1rem;">3</span>
+                </div>
+                <h6 style="font-weight: 600; color: var(--text-primary);">ML Analysis</h6>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0;">
+                    The AdaBoost model evaluates the claim against learned fraud patterns from 15,000+ historical records.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card card-custom h-100 text-center p-4">
+                <div class="d-inline-flex align-items-center justify-content-center rounded-circle mx-auto mb-3" style="width: 52px; height: 52px; background: var(--accent-subtle);">
+                    <span style="font-weight: 700; color: var(--accent); font-size: 1.1rem;">4</span>
+                </div>
+                <h6 style="font-weight: 600; color: var(--text-primary);">Verdict & Score</h6>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0;">
+                    A Fraud or Legitimate verdict is returned with a confidence percentage for informed decision-making.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Key Features -->
+    <h5 style="font-weight: 600; color: var(--text-primary); margin-bottom: 1rem;">
+        <i class="bi bi-star me-2" style="color: var(--accent);"></i>Key Features
+    </h5>
+    <div class="row g-3 mb-5">
+        <div class="col-md-4">
+            <div class="card card-custom h-100 p-4">
+                <i class="bi bi-speedometer2 fs-4 mb-2" style="color: var(--accent);"></i>
+                <h6 style="font-weight: 600; color: var(--text-primary);">Real-Time Detection</h6>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0;">
+                    Instant fraud analysis with confidence scoring. No waiting — results appear within seconds of submission.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card card-custom h-100 p-4">
+                <i class="bi bi-people fs-4 mb-2" style="color: var(--accent);"></i>
+                <h6 style="font-weight: 600; color: var(--text-primary);">Role-Based Access</h6>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0;">
+                    Admins oversee all company activity. Analysts manage their own predictions. Secure, role-based system.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card card-custom h-100 p-4">
+                <i class="bi bi-shield-lock fs-4 mb-2" style="color: var(--accent);"></i>
+                <h6 style="font-weight: 600; color: var(--text-primary);">Policy Validation</h6>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0;">
+                    Claims without valid policy numbers (POL prefix) are automatically flagged as fraud — zero tolerance.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card card-custom h-100 p-4">
+                <i class="bi bi-graph-up-arrow fs-4 mb-2" style="color: var(--accent);"></i>
+                <h6 style="font-weight: 600; color: var(--text-primary);">Performance Analytics</h6>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0;">
+                    Comprehensive model metrics — Accuracy, Precision, Recall, F1-Score, AUC-ROC, confusion matrix, and feature importance.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card card-custom h-100 p-4">
+                <i class="bi bi-clock-history fs-4 mb-2" style="color: var(--accent);"></i>
+                <h6 style="font-weight: 600; color: var(--text-primary);">Audit Trail</h6>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0;">
+                    Every prediction is logged with timestamp, policy number, user, and confidence. Full traceability for compliance.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card card-custom h-100 p-4">
+                <i class="bi bi-phone fs-4 mb-2" style="color: var(--accent);"></i>
+                <h6 style="font-weight: 600; color: var(--text-primary);">Responsive Design</h6>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0;">
+                    Works on desktop, tablet, and mobile. Clean, minimal interface designed for ease of use.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Model Details -->
+    <h5 style="font-weight: 600; color: var(--text-primary); margin-bottom: 1rem;">
+        <i class="bi bi-cpu me-2" style="color: var(--accent);"></i>Model Details
+    </h5>
+    <div class="card card-custom mb-5">
         <div class="card-body p-4">
-            <div class="row g-4 text-center">
-                <div class="col-md-3">
-                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-indigo-subtle mb-3" style="width: 56px; height: 56px;">
-                        <i class="bi bi-pencil-square fs-4 text-indigo"></i>
-                    </div>
-                    <h6 class="fw-bold text-slate-800">1. Data Input</h6>
-                    <p class="text-muted small mb-0">Users enter insurance claim details through a guided multi-step wizard form with 25 key attributes.</p>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <table class="table table-borderless mb-0">
+                        <tr>
+                            <td style="color: var(--text-muted); width: 40%;">Algorithm</td>
+                            <td style="font-weight: 500; color: var(--text-primary);">AdaBoost Classifier</td>
+                        </tr>
+                        <tr>
+                            <td style="color: var(--text-muted);">Base Estimator</td>
+                            <td style="font-weight: 500; color: var(--text-primary);">Decision Tree (depth=1)</td>
+                        </tr>
+                        <tr>
+                            <td style="color: var(--text-muted);">Estimators</td>
+                            <td style="font-weight: 500; color: var(--text-primary);">500</td>
+                        </tr>
+                        <tr>
+                            <td style="color: var(--text-muted);">Learning Rate</td>
+                            <td style="font-weight: 500; color: var(--text-primary);">0.1</td>
+                        </tr>
+                    </table>
                 </div>
-                <div class="col-md-3">
-                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-indigo-subtle mb-3" style="width: 56px; height: 56px;">
-                        <i class="bi bi-arrow-repeat fs-4 text-indigo"></i>
-                    </div>
-                    <h6 class="fw-bold text-slate-800">2. Encoding</h6>
-                    <p class="text-muted small mb-0">Categorical features are label-encoded and numerical features are processed to match the training data format.</p>
-                </div>
-                <div class="col-md-3">
-                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-indigo-subtle mb-3" style="width: 56px; height: 56px;">
-                        <i class="bi bi-cpu fs-4 text-indigo"></i>
-                    </div>
-                    <h6 class="fw-bold text-slate-800">3. ML Model</h6>
-                    <p class="text-muted small mb-0">The encoded data is fed into a trained machine learning model that evaluates fraud probability.</p>
-                </div>
-                <div class="col-md-3">
-                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-indigo-subtle mb-3" style="width: 56px; height: 56px;">
-                        <i class="bi bi-check2-circle fs-4 text-indigo"></i>
-                    </div>
-                    <h6 class="fw-bold text-slate-800">4. Prediction</h6>
-                    <p class="text-muted small mb-0">The system returns a Fraud or Legitimate verdict along with a confidence score and detailed analysis.</p>
+                <div class="col-md-6">
+                    <table class="table table-borderless mb-0">
+                        <tr>
+                            <td style="color: var(--text-muted); width: 40%;">Dataset</td>
+                            <td style="font-weight: 500; color: var(--text-primary);">15,420 insurance claims</td>
+                        </tr>
+                        <tr>
+                            <td style="color: var(--text-muted);">Features</td>
+                            <td style="font-weight: 500; color: var(--text-primary);">25 attributes</td>
+                        </tr>
+                        <tr>
+                            <td style="color: var(--text-muted);">Train/Test Split</td>
+                            <td style="font-weight: 500; color: var(--text-primary);">70% / 30%</td>
+                        </tr>
+                        <tr>
+                            <td style="color: var(--text-muted);">Balancing</td>
+                            <td style="font-weight: 500; color: var(--text-primary);">SMOTE (Synthetic Oversampling)</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Technology Stack -->
-    <h5 class="fw-bold text-slate-800 mb-3">Technology Stack</h5>
-    <div class="row g-4 mb-5">
-        <div class="col-sm-6 col-lg">
+    <h5 style="font-weight: 600; color: var(--text-primary); margin-bottom: 1rem;">
+        <i class="bi bi-layers me-2" style="color: var(--accent);"></i>Technology Stack
+    </h5>
+    <div class="row g-3 mb-5">
+        {% set techs = [
+            {'name': 'Python', 'desc': 'Core programming language for backend logic and ML pipeline', 'icon': 'bi-filetype-py'},
+            {'name': 'Flask', 'desc': 'Lightweight web framework with blueprint architecture', 'icon': 'bi-braces'},
+            {'name': 'scikit-learn', 'desc': 'Machine learning library powering AdaBoost and preprocessing', 'icon': 'bi-robot'},
+            {'name': 'Bootstrap 5', 'desc': 'Responsive CSS framework for clean, modern UI', 'icon': 'bi-palette'},
+            {'name': 'Chart.js', 'desc': 'Interactive charts for performance metrics visualization', 'icon': 'bi-bar-chart'},
+            {'name': 'SQLite', 'desc': 'Embedded database for users, predictions, and model metadata', 'icon': 'bi-database'},
+            {'name': 'Pandas', 'desc': 'Data manipulation and preprocessing for the ML pipeline', 'icon': 'bi-table'},
+            {'name': 'imbalanced-learn', 'desc': 'SMOTE implementation for handling class imbalance', 'icon': 'bi-balance-scale'}
+        ] %}
+        {% for tech in techs %}
+        <div class="col-6 col-md-3">
             <div class="card card-custom h-100 text-center p-3">
-                <div class="card-body">
-                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-indigo-subtle mb-2" style="width: 48px; height: 48px;">
-                        <i class="bi bi-braces fs-5 text-indigo"></i>
-                    </div>
-                    <h6 class="fw-bold text-slate-800 mb-1">Flask</h6>
-                    <p class="text-muted small mb-0">Python web framework powering the backend API and routing</p>
-                </div>
+                <i class="bi {{ tech.icon }} fs-4 mb-2" style="color: var(--accent);"></i>
+                <h6 style="font-weight: 600; color: var(--text-primary); font-size: 0.9rem; margin-bottom: 0.25rem;">{{ tech.name }}</h6>
+                <p style="color: var(--text-muted); font-size: 0.78rem; margin-bottom: 0;">{{ tech.desc }}</p>
             </div>
         </div>
-        <div class="col-sm-6 col-lg">
-            <div class="card card-custom h-100 text-center p-3">
-                <div class="card-body">
-                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-indigo-subtle mb-2" style="width: 48px; height: 48px;">
-                        <i class="bi bi-robot fs-5 text-indigo"></i>
-                    </div>
-                    <h6 class="fw-bold text-slate-800 mb-1">scikit-learn</h6>
-                    <p class="text-muted small mb-0">Machine learning library for model training and predictions</p>
+        {% endfor %}
+    </div>
+
+    <!-- Data Attributes -->
+    <h5 style="font-weight: 600; color: var(--text-primary); margin-bottom: 1rem;">
+        <i class="bi bi-list-check me-2" style="color: var(--accent);"></i>25 Claim Attributes Analyzed
+    </h5>
+    <div class="card card-custom mb-5">
+        <div class="card-body p-4">
+            <div class="row">
+                <div class="col-md-3">
+                    <p style="font-weight: 600; color: var(--text-primary); font-size: 0.85rem; margin-bottom: 0.5rem;">Policy Info</p>
+                    <ul style="color: var(--text-secondary); font-size: 0.83rem; padding-left: 1rem;">
+                        <li>Week of Month</li>
+                        <li>Policy Type</li>
+                        <li>Base Policy</li>
+                        <li>Deductible Amount</li>
+                        <li>Days: Policy to Accident</li>
+                        <li>Days: Policy to Claim</li>
+                        <li>Agent Type</li>
+                    </ul>
                 </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-lg">
-            <div class="card card-custom h-100 text-center p-3">
-                <div class="card-body">
-                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-indigo-subtle mb-2" style="width: 48px; height: 48px;">
-                        <i class="bi bi-palette fs-5 text-indigo"></i>
-                    </div>
-                    <h6 class="fw-bold text-slate-800 mb-1">Bootstrap 5</h6>
-                    <p class="text-muted small mb-0">Responsive front-end framework for modern UI design</p>
+                <div class="col-md-3">
+                    <p style="font-weight: 600; color: var(--text-primary); font-size: 0.85rem; margin-bottom: 0.5rem;">Personal Info</p>
+                    <ul style="color: var(--text-secondary); font-size: 0.83rem; padding-left: 1rem;">
+                        <li>Gender</li>
+                        <li>Marital Status</li>
+                        <li>Age</li>
+                        <li>Age Group of Holder</li>
+                        <li>Fault Attribution</li>
+                        <li>Past Claims</li>
+                        <li>Address Change</li>
+                    </ul>
                 </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-lg">
-            <div class="card card-custom h-100 text-center p-3">
-                <div class="card-body">
-                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-indigo-subtle mb-2" style="width: 48px; height: 48px;">
-                        <i class="bi bi-bar-chart fs-5 text-indigo"></i>
-                    </div>
-                    <h6 class="fw-bold text-slate-800 mb-1">Chart.js</h6>
-                    <p class="text-muted small mb-0">JavaScript library for interactive data visualizations</p>
+                <div class="col-md-3">
+                    <p style="font-weight: 600; color: var(--text-primary); font-size: 0.85rem; margin-bottom: 0.5rem;">Vehicle & Accident</p>
+                    <ul style="color: var(--text-secondary); font-size: 0.83rem; padding-left: 1rem;">
+                        <li>Vehicle Manufacturer</li>
+                        <li>Vehicle Category</li>
+                        <li>Vehicle Price Range</li>
+                        <li>Age of Vehicle</li>
+                        <li>Accident Area</li>
+                        <li>Number of Cars</li>
+                    </ul>
                 </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-lg">
-            <div class="card card-custom h-100 text-center p-3">
-                <div class="card-body">
-                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-indigo-subtle mb-2" style="width: 48px; height: 48px;">
-                        <i class="bi bi-database fs-5 text-indigo"></i>
-                    </div>
-                    <h6 class="fw-bold text-slate-800 mb-1">SQLite</h6>
-                    <p class="text-muted small mb-0">Lightweight database for users, predictions, and model metadata</p>
+                <div class="col-md-3">
+                    <p style="font-weight: 600; color: var(--text-primary); font-size: 0.85rem; margin-bottom: 0.5rem;">Claim Details</p>
+                    <ul style="color: var(--text-secondary); font-size: 0.83rem; padding-left: 1rem;">
+                        <li>Day of Week Claimed</li>
+                        <li>Week of Month Claimed</li>
+                        <li>Police Report Filed</li>
+                        <li>Witness Present</li>
+                        <li>Number of Supplements</li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- About FraudShield -->
-    <div class="card card-custom">
-        <div class="card-body p-4 text-center">
-            <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-indigo-subtle mb-3" style="width: 56px; height: 56px;">
-                <i class="bi bi-shield-check fs-4 text-indigo"></i>
+    <!-- Security -->
+    <h5 style="font-weight: 600; color: var(--text-primary); margin-bottom: 1rem;">
+        <i class="bi bi-lock me-2" style="color: var(--accent);"></i>Security & Privacy
+    </h5>
+    <div class="card card-custom mb-5">
+        <div class="card-body p-4">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="d-flex align-items-start">
+                        <i class="bi bi-check-circle me-2 mt-1" style="color: var(--legit);"></i>
+                        <div>
+                            <p style="font-weight: 500; color: var(--text-primary); font-size: 0.9rem; margin-bottom: 0.15rem;">Bcrypt Password Hashing</p>
+                            <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 0;">All passwords are hashed with industry-standard bcrypt encryption.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="d-flex align-items-start">
+                        <i class="bi bi-check-circle me-2 mt-1" style="color: var(--legit);"></i>
+                        <div>
+                            <p style="font-weight: 500; color: var(--text-primary); font-size: 0.9rem; margin-bottom: 0.15rem;">CSRF Protection</p>
+                            <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 0;">Every form is protected against cross-site request forgery attacks.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="d-flex align-items-start">
+                        <i class="bi bi-check-circle me-2 mt-1" style="color: var(--legit);"></i>
+                        <div>
+                            <p style="font-weight: 500; color: var(--text-primary); font-size: 0.9rem; margin-bottom: 0.15rem;">Role-Based Access Control</p>
+                            <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 0;">Admins and analysts have separate permissions. Data isolation enforced.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <h5 class="fw-bold text-slate-800 mb-2">FraudShield</h5>
-            <p class="text-muted mb-1">Built to help insurance companies detect and prevent fraudulent claims efficiently.</p>
-            <p class="text-muted small mb-0">Leveraging advanced machine learning techniques to provide accurate, real-time fraud detection for the insurance industry.</p>
         </div>
     </div>
+
+    <!-- Footer Card -->
+    <div class="card card-custom">
+        <div class="card-body p-4 text-center">
+            <i class="bi bi-shield-check fs-3 mb-2" style="color: var(--accent);"></i>
+            <h5 style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">FraudShield</h5>
+            <p style="color: var(--text-secondary); margin-bottom: 0.25rem;">
+                Machine Learning Based Method for Insurance Fraud Detection on Class Imbalance Datasets with Missing Values
+            </p>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0;">
+                Designed to empower insurance companies with intelligent, data-driven fraud detection capabilities.
+            </p>
+        </div>
+    </div>
+
 </div>
 {% endblock %}
