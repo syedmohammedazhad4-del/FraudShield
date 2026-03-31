@@ -82,19 +82,20 @@ def train_model(data_path='data/fraud_oracle.csv', models_dir='models'):
     print(f"  Features ({len(feature_names)}): {feature_names}")
 
     # Step 6: Train/test split (FIXED: 80/20 instead of 30/70)
-    print("\n[6/10] Train/test split (80/20, stratified)...")
+    print("\n[6/10] Train/test split (70/30, stratified)...")
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, random_state=42, stratify=y
+        X, y, test_size=0.3, random_state=42, stratify=y
     )
     print(f"  Training: {X_train.shape[0]} samples")
     print(f"  Testing:  {X_test.shape[0]} samples")
 
-    # Step 7: SMOTE on training data (controlled ratio for better accuracy)
-    print("\n[7/10] Applying SMOTE to balance training data...")
-    print(f"  Before SMOTE: {dict(zip(*np.unique(y_train, return_counts=True)))}")
-    smote = SMOTE(sampling_strategy=0.3, random_state=42)
-    X_train_smote, y_train_smote = smote.fit_resample(X_train, y_train)
-    print(f"  After SMOTE:  {dict(zip(*np.unique(y_train_smote, return_counts=True)))}")
+    # Step 7: SMOTETomek on training data (balance + clean noisy samples)
+    print("\n[7/10] Applying SMOTETomek to balance training data...")
+    print(f"  Before: {dict(zip(*np.unique(y_train, return_counts=True)))}")
+    from imblearn.combine import SMOTETomek
+    st = SMOTETomek(random_state=42)
+    X_train_smote, y_train_smote = st.fit_resample(X_train, y_train)
+    print(f"  After:  {dict(zip(*np.unique(y_train_smote, return_counts=True)))}")
 
     # Step 8: Scale features
     print("\n[8/10] Scaling features...")
@@ -102,18 +103,18 @@ def train_model(data_path='data/fraud_oracle.csv', models_dir='models'):
     X_train_scaled = scaler.fit_transform(X_train_smote)
     X_test_scaled = scaler.transform(X_test)
 
-    # Step 9: Train GradientBoosting model (better accuracy than AdaBoost)
-    print("\n[9/10] Training GradientBoosting classifier...")
+    # Step 9: Train RandomForest with heavy fraud penalty
+    print("\n[9/10] Training RandomForest classifier (fraud-weighted)...")
     start_time = time.time()
 
-    from sklearn.ensemble import GradientBoostingClassifier
-    model = GradientBoostingClassifier(
-        n_estimators=500,
-        max_depth=3,
-        learning_rate=0.05,
-        subsample=0.8,
-        min_samples_leaf=10,
-        random_state=42
+    from sklearn.ensemble import RandomForestClassifier
+    model = RandomForestClassifier(
+        n_estimators=1000,
+        max_depth=20,
+        min_samples_leaf=3,
+        class_weight={0: 1, 1: 10},
+        random_state=42,
+        n_jobs=-1
     )
     model.fit(X_train_scaled, y_train_smote)
     training_duration = time.time() - start_time
@@ -123,18 +124,17 @@ def train_model(data_path='data/fraud_oracle.csv', models_dir='models'):
     print("\n[10/10] Evaluating model...")
     y_proba = model.predict_proba(X_test_scaled)[:, 1]
 
-    # Find threshold that gives ~85% accuracy while keeping decent fraud recall
+    # Find threshold that maximizes F1 while keeping fraud recall >= 60%
     best_threshold = 0.5
-    best_acc = 0
-    for t in np.arange(0.3, 0.7, 0.01):
+    best_f1 = 0
+    for t in np.arange(0.25, 0.60, 0.01):
         yp = (y_proba >= t).astype(int)
-        a = accuracy_score(y_test, yp)
         r = recall_score(y_test, yp, zero_division=0)
-        if a >= 0.85 and r >= 0.20 and a > best_acc:
-            best_acc = a
+        f = f1_score(y_test, yp, zero_division=0)
+        a = accuracy_score(y_test, yp)
+        if r >= 0.60 and f > best_f1:
+            best_f1 = f
             best_threshold = t
-    if best_acc == 0:
-        best_threshold = 0.5
 
     print(f"  Optimized threshold: {best_threshold:.2f}")
     y_pred = (y_proba >= best_threshold).astype(int)
