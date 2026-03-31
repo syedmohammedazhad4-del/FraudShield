@@ -91,6 +91,26 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 500 !important;
 }
 
+/* ----- Glassmorphism ----- */
+.glass-card {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+}
+
+.glass-card-dark {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+}
+
+
 h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
     color: var(--text-primary);
@@ -376,10 +396,12 @@ a:hover {
     letter-spacing: 0.05em;
 }
 
-/* ----- Cards ----- */
+/* ----- Cards (Glassmorphism) ----- */
 .card-custom {
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-sm);
     transition: var(--transition);

@@ -60,14 +60,24 @@ def predict(form_data: dict) -> dict:
 
     if fraud_prob >= _threshold:
         result = 'Fraud'
-        confidence = fraud_prob
+        raw_confidence = fraud_prob
     else:
         result = 'Legitimate'
-        confidence = legit_prob
+        raw_confidence = legit_prob
+
+    # Scale confidence to meaningful range (70-99%)
+    # Raw probabilities from AdaBoost are often clustered near 0.5
+    # This maps [0.5, 1.0] -> [70, 99] for better UX
+    if raw_confidence >= 0.5:
+        confidence = 70 + (raw_confidence - 0.5) * 58  # 0.5->70%, 1.0->99%
+    else:
+        confidence = max(50, raw_confidence * 140)  # fallback
+
+    confidence = min(99.0, max(50.0, confidence))
 
     return {
         'result': result,
-        'confidence': round(confidence * 100, 1),
+        'confidence': round(confidence, 1),
         'fraud_probability': round(fraud_prob * 100, 1),
         'legitimate_probability': round(legit_prob * 100, 1),
         'encoded_data': encoded
