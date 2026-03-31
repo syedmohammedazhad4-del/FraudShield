@@ -46,8 +46,7 @@
                                 <div class="col-md-6">
                                     <label for="{{ field_name }}" class="form-label fw-semibold text-slate-700">{{ field_info.label }}</label>
                                     {% if field_name == 'PolicyNumber' %}
-                                    <input type="text" class="form-control {% if form[field_name].errors %}is-invalid{% endif %}" id="{{ field_name }}" name="{{ field_name }}" placeholder="e.g., POL-2026-001" value="{{ form[field_name].data or '' }}" required style="text-transform: uppercase;">
-                                    <div class="form-text text-muted small"><i class="bi bi-info-circle me-1"></i>Must start with <strong>POL</strong>. Invalid policy numbers are automatically flagged as fraud.</div>
+                                    <input type="text" class="form-control {% if form[field_name].errors %}is-invalid{% endif %}" id="{{ field_name }}" name="{{ field_name }}" placeholder="Enter policy number" value="{{ form[field_name].data or '' }}" required style="text-transform: uppercase;">
                                     {% elif field_name == 'Age' %}
                                     <input type="number" class="form-control {% if form[field_name].errors %}is-invalid{% endif %}" id="{{ field_name }}" name="{{ field_name }}" min="16" max="100" placeholder="Enter age (16-100)" value="{{ form[field_name].data or '' }}">
                                     {% elif field_info.choices %}
