@@ -34,7 +34,7 @@ def main():
 
         model_meta = ModelMetadata(
             version=version,
-            algorithm='AdaBoost (DecisionTree base, 500 estimators)',
+            algorithm='RandomForest (n=1000, depth=20, fraud-weighted 1:10) + SMOTETomek',
             accuracy=metrics['accuracy'],
             precision_score=metrics['precision'],
             recall=metrics['recall'],
