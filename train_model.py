@@ -24,13 +24,14 @@ def main():
     # Save metrics to database
     app = create_app(Config)
     with app.app_context():
-        # Deactivate all existing models
-        ModelMetadata.query.update({'is_active': False})
+        # Recreate tables if schema changed (handles new columns like policy_number)
+        db.create_all()
+
+        # Remove old model metadata and insert fresh
+        ModelMetadata.query.delete()
+        db.session.commit()
 
         version = f"v1.0-adaboost-{metrics['feature_count']}f"
-        existing = ModelMetadata.query.filter_by(version=version).first()
-        if existing:
-            db.session.delete(existing)
 
         model_meta = ModelMetadata(
             version=version,

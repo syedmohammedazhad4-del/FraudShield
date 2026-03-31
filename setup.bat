@@ -32,7 +32,8 @@ if errorlevel 1 (
 )
 echo.
 
-echo [2/3] Training ML model...
+echo [2/3] Resetting database and training ML model...
+if exist instance\fraud_detection.db del instance\fraud_detection.db
 python train_model.py
 if errorlevel 1 (
     echo ERROR: Model training failed!
