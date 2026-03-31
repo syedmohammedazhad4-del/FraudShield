@@ -94,7 +94,9 @@ def main():
 
         # Seed predictions from test_cases CSV
         from app.models import Prediction
-        if Prediction.query.count() == 0:
+        Prediction.query.delete()
+        db.session.commit()
+        if True:
             import pandas as pd
             csv_path = 'data/test_cases_new.csv' if os.path.exists('data/test_cases_new.csv') else 'data/test_cases.csv'
             tc = pd.read_csv(csv_path)
