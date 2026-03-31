@@ -12,7 +12,12 @@
                         <i class="bi bi-exclamation-triangle fs-1 text-danger"></i>
                     </div>
                     <h2 class="fw-bold text-danger mb-2">FRAUD DETECTED</h2>
+                    {% if prediction.notes and 'Invalid policy' in prediction.notes %}
+                    <p class="text-danger fw-semibold mb-1"><i class="bi bi-shield-exclamation me-1"></i>Invalid Policy Number - Does not start with "POL"</p>
+                    <p class="text-muted mb-0">This claim has been automatically flagged as fraud due to an invalid policy number.</p>
+                    {% else %}
                     <p class="text-muted mb-0">This claim has been flagged as potentially fraudulent.</p>
+                    {% endif %}
                     {% else %}
                     <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-success bg-opacity-10 mb-3" style="width: 80px; height: 80px;">
                         <i class="bi bi-check-circle fs-1 text-success"></i>

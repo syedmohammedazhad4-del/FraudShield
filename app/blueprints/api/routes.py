@@ -24,9 +24,19 @@ def predict_view():
 
         try:
             # Extract policy number (not fed to model, just for tracking)
-            policy_number = form_data.pop('PolicyNumber', '')
+            policy_number = form_data.pop('PolicyNumber', '').strip().upper()
+
+            # Validate policy number: must start with "POL"
+            invalid_policy = not policy_number.startswith('POL')
 
             result = predict(form_data)
+
+            # If policy number is invalid (doesn't start with POL), override to Fraud
+            if invalid_policy:
+                result['result'] = 'Fraud'
+                result['confidence'] = 100.0
+                result['fraud_probability'] = 100.0
+                result['legitimate_probability'] = 0.0
 
             model = ModelMetadata.query.filter_by(is_active=True).first()
             prediction = Prediction(
@@ -36,7 +46,8 @@ def predict_view():
                 confidence_score=result['confidence'],
                 input_data_json=json.dumps(form_data),
                 encoded_data_json=json.dumps(result['encoded_data']),
-                model_version=model.version if model else 'unknown'
+                model_version=model.version if model else 'unknown',
+                notes='Invalid policy number - auto-flagged as fraud' if invalid_policy else None
             )
             db.session.add(prediction)
             db.session.commit()
